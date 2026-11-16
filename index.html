@@ -2,12 +2,305 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kurdo Barbershop</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KURDO BARBERSHOP</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #101014;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+header {
+  padding: 35px 15px;
+  background: #19191f;
+  border-bottom: 2px solid #d4af37;
+}
+
+h1, h2 { color: #d4af37; }
+
+main { padding: 25px 15px; }
+
+.card {
+  max-width: 460px;
+  margin: 20px auto;
+  padding: 25px;
+  background: #202027;
+  border-radius: 18px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border: 1px solid #555;
+  border-radius: 10px;
+  background: #15151a;
+  color: white;
+  font-size: 16px;
+}
+
+button {
+  background: #d4af37;
+  color: #111;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.price {
+  font-size: 24px;
+  color: #d4af37;
+  font-weight: bold;
+}
+
+#status, #bookingStatus {
+  margin-top: 18px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  padding: 25px;
+  color: #aaa;
+}
+</style>
 </head>
+
 <body>
-  <h1>Kurdo Barbershop</h1>
+
+<header>
+  <h1>✂ KURDO BARBERSHOP</h1>
   <p>بەخێربێن بۆ کوردۆ باربەرشۆپ</p>
+</header>
+
+<main>
+
+<section class="card">
+  <h2>پشکنینی Firebase</h2>
+  <p>پەیوەندی وێبسایتەکەت پشکنین بکە</p>
+  <button id="checkBtn">
+    پشکنینی Firebase
+  </button>
+  <p id="status">چاوەڕوانی پشکنین...</p>
+</section>
+
+<section class="card">
+  <h2>خزمەتگوزارییەکان</h2>
+  <p>قژ بڕین و ڕیش چاککردن</p>
+  <p>نرخی تایبەت بۆ پێشمەرگە و دێلیڤەری</p>
+  <p class="price">5,000 IQD</p>
+</section>
+
+<section class="card">
+  <h2>حجزکردنی کات</h2>
+
+  <form id="bookingForm">
+
+    <input
+      id="customerName"
+      placeholder="ناوی تەواو"
+      maxlength="80"
+      required
+    >
+
+    <input
+      id="customerPhone"
+      type="tel"
+      placeholder="ژمارەی مۆبایل"
+      maxlength="20"
+      required
+    >
+
+    <select id="service" required>
+      <option value="">خزمەتگوزاری هەڵبژێرە</option>
+      <option value="haircut">قژ بڕین</option>
+      <option value="beard">ڕیش چاککردن</option>
+      <option value="haircut_beard">قژ و ڕیش</option>
+      <option value="special">قژ و ڕیش - نرخی تایبەت</option>
+    </select>
+
+    <input id="bookingDate" type="date" required>
+    <input id="bookingTime" type="time" required>
+
+    <button id="bookBtn" type="submit">
+      پشتڕاستکردنەوەی حجز
+    </button>
+
+  </form>
+
+  <p id="bookingStatus"></p>
+</section>
+
+</main>
+
+<footer>
+  © 2026 KURDO BARBERSHOP
+</footer>
+
+<script type="module">
+
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+// زانیاری Firebase ـی خۆت لێرە دابنێ
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "kurdo-barbershop.firebaseapp.com",
+  projectId: "kurdo-barbershop",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "314573075182",
+  appId: "YOUR_APP_ID"
+};
+
+const status = document.getElementById("status");
+const bookingStatus = document.getElementById("bookingStatus");
+const bookingForm = document.getElementById("bookingForm");
+const bookBtn = document.getElementById("bookBtn");
+const dateInput = document.getElementById("bookingDate");
+
+const today = new Date();
+const localDate = [
+  today.getFullYear(),
+  String(today.getMonth() + 1).padStart(2, "0"),
+  String(today.getDate()).padStart(2, "0")
+].join("-");
+
+dateInput.min = localDate;
+
+const missingConfig = [
+  firebaseConfig.apiKey,
+  firebaseConfig.storageBucket,
+  firebaseConfig.appId
+].some(value => !value || value.startsWith("YOUR_"));
+
+let db = null;
+let firebaseError = null;
+
+if (!missingConfig) {
+  try {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+  } catch (error) {
+    firebaseError = error;
+  }
+}
+
+document.getElementById("checkBtn")
+.addEventListener("click", () => {
+
+  if (missingConfig) {
+    status.textContent =
+      "تکایە زانیاری Firebase تەواو بکە.";
+    return;
+  }
+
+  if (firebaseError) {
+    status.textContent =
+      "هەڵە: " + firebaseError.message;
+    return;
+  }
+
+  status.textContent =
+    "Firebase SDK ئامادەیە. بۆ دڵنیابوون لە Firestore، حجزێکی تاقیکردنەوە ئەنجام بدە.";
+});
+
+bookingForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!db) {
+    bookingStatus.textContent =
+      "Firebase هێشتا ئامادە نییە.";
+    return;
+  }
+
+  const name =
+    document.getElementById("customerName").value.trim();
+
+  const phone =
+    document.getElementById("customerPhone").value.trim();
+
+  const service =
+    document.getElementById("service").value;
+
+  const date =
+    document.getElementById("bookingDate").value;
+
+  const time =
+    document.getElementById("bookingTime").value;
+
+  if (!name || !phone || !service || !date || !time) {
+    bookingStatus.textContent =
+      "تکایە هەموو خانەکان پڕ بکەوە.";
+    return;
+  }
+
+  const appointment = new Date(date + "T" + time);
+
+  if (Number.isNaN(appointment.getTime()) ||
+      appointment <= new Date()) {
+    bookingStatus.textContent =
+      "تکایە کاتێکی داهاتوو هەڵبژێرە.";
+    return;
+  }
+
+  bookBtn.disabled = true;
+  bookingStatus.textContent =
+    "حجزەکەت تۆمار دەکرێت...";
+
+  try {
+    const result = await addDoc(
+      collection(db, "bookings"),
+      {
+        customerName: name,
+        customerPhone: phone,
+        service: service,
+        bookingDate: date,
+        bookingTime: time,
+        status: "pending",
+        createdAt: serverTimestamp()
+      }
+    );
+
+    bookingStatus.textContent =
+      "حجزەکەت بە سەرکەوتوویی نێردرا. ژمارەی حجز: " +
+      result.id +
+      " — چاوەڕوانی پشتڕاستکردنەوەی دوکان بکە.";
+
+    bookingForm.reset();
+
+  } catch (error) {
+    bookingStatus.textContent =
+      "حجزەکە تۆمار نەکرا: " + error.message;
+  } finally {
+    bookBtn.disabled = false;
+  }
+});
+
+</script>
+
 </body>
 </html>
