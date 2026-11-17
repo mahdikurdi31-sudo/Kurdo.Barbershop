@@ -3,307 +3,369 @@
 <html lang="ku" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080808">
 <title>KURDO BARBERSHOP</title>
-
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: #101014;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-
-header {
-  padding: 35px 15px;
-  background: #19191f;
-  border-bottom: 2px solid #d4af37;
-}
-
-h1, h2 { color: #d4af37; }
-
-main { padding: 25px 15px; }
-
-.card {
-  max-width: 460px;
-  margin: 20px auto;
-  padding: 25px;
-  background: #202027;
-  border-radius: 18px;
-}
-
-input, select {
-  width: 100%;
-  padding: 14px;
-  margin: 8px 0;
-  border: 1px solid #555;
-  border-radius: 10px;
-  background: #15151a;
-  color: white;
-  font-size: 16px;
-}
-
-button {
-  background: #d4af37;
-  color: #111;
-  border: none;
-  padding: 14px 25px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 10px;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: wait;
-}
-
-.price {
-  font-size: 24px;
-  color: #d4af37;
-  font-weight: bold;
-}
-
-#status, #bookingStatus {
-  margin-top: 18px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-
-footer {
-  padding: 25px;
-  color: #aaa;
-}
+:root{--gold:#e5ae27;--light:#ffe08b;--bg:#080808;--card:#151515}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Tahoma,sans-serif;padding-bottom:85px}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 16px;background:#101010;border-bottom:1px solid #70521b}
+.brand{color:var(--light);font-weight:900;letter-spacing:1px}
+.round{border:1px solid #947023;border-radius:50%;background:#171717;color:var(--gold);width:45px;height:45px;font-size:22px}
+main{max-width:600px;margin:auto;padding:16px}
+.hero{border:1px solid #9a6b18;border-radius:28px;padding:24px 18px;text-align:center;background:radial-gradient(circle at 50% 25%,#50300b,#13100b 65%,#090909);margin-bottom:18px}
+.logo{width:215px;height:215px;max-width:75%;object-fit:cover;border-radius:50%;border:5px solid #bb8b24;box-shadow:0 0 35px #c28b3155}
+h1{font-size:26px;color:var(--light);margin:20px 0 8px}
+h2{color:var(--light);font-size:23px}
+p{line-height:1.7}
+.gold{background:linear-gradient(#ffe17c,#e9a91a,#bc7908);border:0;color:#211400;border-radius:15px;padding:16px;font-weight:bold;width:100%;font-size:18px;box-shadow:0 5px 18px #a36c2450}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile,.panel{background:linear-gradient(145deg,#1c1a15,#101010);border:1px solid #72531c;border-radius:20px;padding:20px;margin-bottom:14px}
+.tile{text-align:center;min-height:145px}
+.tile .symbol{font-size:36px;color:var(--gold);margin-bottom:12px}
+.tile small{display:block;color:#aaa;margin-top:8px}
+.page{display:none}
+.page.active{display:block}
+.back{background:none;border:0;color:var(--gold);font-size:18px;padding:10px}
+.service{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #76561e;border-radius:15px;background:#171717;padding:16px;margin:12px 0;text-align:start;width:100%;color:white}
+.service.selected,.slot.selected{background:linear-gradient(140deg,#a16a08,#f6bd32);color:#15100a;border-color:#ffe09b}
+.price{color:var(--light);font-weight:bold}
+label{display:block;margin:18px 0 8px;color:#eee}
+input,select{width:100%;background:#171717;border:1px solid #806128;color:#fff;border-radius:13px;padding:15px;min-height:52px}
+input:focus,select:focus{outline:2px solid var(--gold)}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0 20px}
+.slot{background:#171717;border:1px solid #72531c;border-radius:12px;padding:13px 4px;color:#fff}
+.slot:disabled{opacity:.3;cursor:not-allowed}
+.message{padding:14px;border-radius:12px;margin-top:15px;line-height:1.7}
+.error{background:#461b1b;border:1px solid #b35c5c}
+.success{background:#103d24;border:1px solid #388f54}
+.notice{background:#29200f;border:1px solid #8b6a2b}
+nav{position:fixed;bottom:0;left:0;right:0;background:#0b0b0b;border-top:1px solid #805d21;display:flex;justify-content:space-around;padding:10px 4px;z-index:10}
+nav button{background:none;border:0;color:#bbb;font-size:12px;min-width:65px}
+nav span{display:block;font-size:24px;margin-bottom:5px}
+nav button.active{color:var(--light)}
+.lang{width:100%;margin:8px 0;padding:15px;background:#171717;border:1px solid #76561e;color:white;border-radius:13px;text-align:start}
+.lang.selected{border:2px solid var(--gold);color:var(--light)}
+.center{text-align:center}
+.muted{color:#aaa}
+.big{font-size:42px;color:#4bd76c}
+footer{text-align:center;color:#a38c60;font-size:12px;margin:30px 0}
 </style>
 </head>
-
 <body>
 
 <header>
-  <h1>✂ KURDO BARBERSHOP</h1>
-  <p>بەخێربێن بۆ کوردۆ باربەرشۆپ</p>
+  <div class="brand">♛ KURDO BARBERSHOP</div>
+  <button class="round" onclick="showPage('language')">🌐</button>
 </header>
 
 <main>
-
-<section class="card">
-  <h2>پشکنینی Firebase</h2>
-  <p>پەیوەندی وێبسایتەکەت پشکنین بکە</p>
-  <button id="checkBtn">
-    پشکنینی Firebase
-  </button>
-  <p id="status">چاوەڕوانی پشکنین...</p>
-</section>
-
-<section class="card">
-  <h2>خزمەتگوزارییەکان</h2>
-  <p>قژ بڕین و ڕیش چاککردن</p>
-  <p>نرخی تایبەت بۆ پێشمەرگە و دێلیڤەری</p>
-  <p class="price">5,000 IQD</p>
-</section>
-
-<section class="card">
-  <h2>حجزکردنی کات</h2>
-
-  <form id="bookingForm">
-
-    <input
-      id="customerName"
-      placeholder="ناوی تەواو"
-      maxlength="80"
-      required
-    >
-
-    <input
-      id="customerPhone"
-      type="tel"
-      placeholder="ژمارەی مۆبایل"
-      maxlength="20"
-      required
-    >
-
-    <select id="service" required>
-      <option value="">خزمەتگوزاری هەڵبژێرە</option>
-      <option value="haircut">قژ بڕین</option>
-      <option value="beard">ڕیش چاککردن</option>
-      <option value="haircut_beard">قژ و ڕیش</option>
-      <option value="special">قژ و ڕیش - نرخی تایبەت</option>
-    </select>
-
-    <input id="bookingDate" type="date" required>
-    <input id="bookingTime" type="time" required>
-
-    <button id="bookBtn" type="submit">
-      پشتڕاستکردنەوەی حجز
+<section id="home" class="page active">
+  <div class="hero">
+    <img class="logo" src="./logo.png" alt="Kurdo Barbershop Logo">
+    <h1>KURDO BARBERSHOP</h1>
+    <p data-i18n="subtitle">قژبڕین و ڕیش چاککردنی پڕۆفیشناڵ</p>
+    <button class="gold" onclick="showPage('booking')" data-i18n="book">حجزکردنی کات</button>
+  </div>
+  <div class="grid">
+    <button class="tile" onclick="showPage('booking')">
+      <div class="symbol">▦</div>
+      <strong data-i18n="book">حجزکردنی کات</strong>
+      <small>Book Appointment</small>
     </button>
-
-  </form>
-
-  <p id="bookingStatus"></p>
+    <button class="tile" onclick="showPage('services')">
+      <div class="symbol">✂</div>
+      <strong data-i18n="services">خزمەتگوزارییەکان</strong>
+      <small>Haircut Styles</small>
+    </button>
+    <button class="tile" onclick="showPage('offers')">
+      <div class="symbol">%</div>
+      <strong data-i18n="offers">داشکاندن و ئۆفەر</strong>
+      <small>Special Offers</small>
+    </button>
+    <button class="tile" onclick="showPage('profile')">
+      <div class="symbol">♙</div>
+      <strong data-i18n="profile">پرۆفایلی من</strong>
+      <small>My Profile</small>
+    </button>
+  </div>
 </section>
 
+<section id="language" class="page">
+  <button class="back" onclick="showPage('home')">‹ Back</button>
+  <h2 class="center">🌐 Choose Language</h2>
+  <button class="lang" onclick="setLanguage('ku')">🇹🇯 کوردی — Kurdish</button>
+  <button class="lang" onclick="setLanguage('ar')">🇸🇦 العربية — Arabic</button>
+  <button class="lang" onclick="setLanguage('en')">🇬🇧 English</button>
+  <button class="lang" onclick="setLanguage('de')">🇩🇪 Deutsch</button>
+  <button class="gold" onclick="showPage('home')" data-i18n="continue">بەردەوام بە</button>
+</section>
+
+<section id="services" class="page">
+  <h2 data-i18n="services">خزمەتگوزارییەکان</h2>
+  <div id="serviceList"></div>
+</section>
+
+<section id="offers" class="page">
+  <h2 data-i18n="offers">داشکاندن و ئۆفەر</h2>
+  <div class="panel center">
+    <div style="font-size:42px">♛</div>
+    <h2>5,000 IQD</h2>
+    <p data-i18n="special">نرخی تایبەت بۆ پێشمەرگە و کارمەندانی دێلیڤەری، قژبڕین و ڕیش پێکەوە.</p>
+    <button class="gold" onclick="selectService('special');showPage('booking')" data-i18n="book">حجزکردنی کات</button>
+  </div>
+</section>
+
+<section id="booking" class="page">
+  <h2 data-i18n="book">حجزکردنی کات</h2>
+  <div class="panel">
+    <form id="bookingForm">
+      <label data-i18n="name">ناوی تەواو</label>
+      <input id="customerName" required minlength="2" maxlength="100" autocomplete="name">
+
+      <label data-i18n="phone">ژمارەی مۆبایل</label>
+      <input id="customerPhone" required type="tel" minlength="10" maxlength="20" autocomplete="tel">
+
+      <label data-i18n="chooseService">خزمەتگوزاری هەڵبژێرە</label>
+      <select id="bookingService" required></select>
+
+      <label data-i18n="date">ڕۆژی حجز</label>
+      <input id="bookingDate" type="date" required>
+
+      <label data-i18n="time">کاتی حجز</label>
+      <div id="timeSlots" class="slots"></div>
+
+      <button id="bookBtn" class="gold" type="submit" data-i18n="confirm">ناردنی داواکاری حجز</button>
+      <div id="bookingStatus" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section id="profile" class="page">
+  <h2 data-i18n="profile">پرۆفایلی من</h2>
+  <div class="panel">
+    <p data-i18n="profileInfo">زانیاری دوایین حجزەکەت لەم ئامێرەدا پیشان دەدرێت.</p>
+    <div id="lastBooking" class="muted"></div>
+  </div>
+</section>
+
+<section id="confirmed" class="page">
+  <div class="panel center">
+    <div class="big">✓</div>
+    <h2 data-i18n="received">داواکاری حجزەکەت تۆمارکرا</h2>
+    <p data-i18n="pending">داواکارییەکەت چاوەڕێی پشتڕاستکردنەوەیە.</p>
+    <div id="confirmationDetails"></div>
+    <button class="gold" onclick="showPage('home')" data-i18n="home">سەرەکی</button>
+  </div>
+</section>
+<footer>© 2026 KURDO BARBERSHOP</footer>
 </main>
 
-<footer>
-  © 2026 KURDO BARBERSHOP
-</footer>
+<nav>
+<button onclick="showPage('home')" data-nav="home"><span>⌂</span><span data-i18n="home">سەرەکی</span></button>
+<button onclick="showPage('booking')" data-nav="booking"><span>▦</span><span data-i18n="book">حجزکردنی کات</span></button>
+<button onclick="showPage('services')" data-nav="services"><span>✂</span><span data-i18n="services">خزمەتگوزارییەکان</span></button>
+<button onclick="showPage('profile')" data-nav="profile"><span>♙</span><span data-i18n="profile">پرۆفایلی من</span></button>
+</nav>
 
 <script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {getFirestore,doc,runTransaction,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp
-} from
-"https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-// زانیاری Firebase ـی خۆت لێرە دابنێ
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDVVBqpfTYUDnWNFNzsXevsjwgSqTL9r6k",
-  authDomain: "kurdo-barbershop.firebaseapp.com",
-  projectId: "kurdo-barbershop",
-  storageBucket: "kurdo-barbershop.firebasestorage.app",
-  messagingSenderId: "314573075182",
-  appId: "1:314573075182:web:d744fd5565b09048d5f9ff",
-  measurementId: "G-FEN1ED0KS5"
+const firebaseConfig={
+ apiKey:"AIzaSyDVVBqpfTYUDnWNFNzsXevsjwgSqTL9r6k",
+ authDomain:"kurdo-barbershop.firebaseapp.com",
+ projectId:"kurdo-barbershop",
+ storageBucket:"kurdo-barbershop.firebasestorage.app",
+ messagingSenderId:"314573075182",
+ appId:"1:314573075182:web:d744fd5565b09048d5f9ff",
+ measurementId:"G-FEN1ED0KS5"
 };
 
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-const status = document.getElementById("status");
-const bookingStatus = document.getElementById("bookingStatus");
-const bookingForm = document.getElementById("bookingForm");
-const bookBtn = document.getElementById("bookBtn");
-const dateInput = document.getElementById("bookingDate");
+const translations={
+ku:{subtitle:"قژبڕین و ڕیش چاککردنی پڕۆفیشناڵ",book:"حجزکردنی کات",services:"خزمەتگوزارییەکان",offers:"داشکاندن و ئۆفەر",profile:"پرۆفایلی من",continue:"بەردەوام بە",special:"نرخی تایبەت بۆ پێشمەرگە و کارمەندانی دێلیڤەری، قژبڕین و ڕیش پێکەوە.",name:"ناوی تەواو",phone:"ژمارەی مۆبایل",chooseService:"خزمەتگوزاری هەڵبژێرە",date:"ڕۆژی حجز",time:"کاتی حجز",confirm:"ناردنی داواکاری حجز",received:"داواکاری حجزەکەت تۆمارکرا",pending:"داواکارییەکەت چاوەڕێی پشتڕاستکردنەوەیە.",home:"سەرەکی",profileInfo:"زانیاری دوایین حجزەکەت لەم ئامێرەدا پیشان دەدرێت."},
+ar:{subtitle:"قص الشعر وتهذيب اللحية باحتراف",book:"حجز موعد",services:"الخدمات",offers:"العروض",profile:"ملفي الشخصي",continue:"متابعة",special:"سعر خاص للبيشمركة وعمال التوصيل للشعر واللحية.",name:"الاسم الكامل",phone:"رقم الهاتف",chooseService:"اختر الخدمة",date:"تاريخ الحجز",time:"وقت الحجز",confirm:"إرسال طلب الحجز",received:"تم تسجيل طلب الحجز",pending:"طلبك بانتظار التأكيد.",home:"الرئيسية",profileInfo:"آخر حجز على هذا الجهاز."},
+en:{subtitle:"Professional Haircut & Grooming",book:"Book Appointment",services:"Services",offers:"Offers & Discounts",profile:"My Profile",continue:"Continue",special:"Special hair and beard price for Peshmerga and delivery workers.",name:"Full Name",phone:"Phone Number",chooseService:"Choose Service",date:"Booking Date",time:"Booking Time",confirm:"Submit Booking Request",received:"Booking Request Received",pending:"Your request is awaiting confirmation.",home:"Home",profileInfo:"Your latest booking on this device."},
+de:{subtitle:"Professioneller Haarschnitt & Bartpflege",book:"Termin buchen",services:"Dienstleistungen",offers:"Angebote",profile:"Mein Profil",continue:"Weiter",special:"Sonderpreis für Peschmerga und Lieferfahrer: Haare und Bart.",name:"Vollständiger Name",phone:"Telefonnummer",chooseService:"Dienstleistung wählen",date:"Datum",time:"Uhrzeit",confirm:"Terminanfrage senden",received:"Terminanfrage gespeichert",pending:"Ihre Anfrage wartet auf Bestätigung.",home:"Startseite",profileInfo:"Ihre letzte Buchung auf diesem Gerät."}
+};
 
-const today = new Date();
-const localDate = [
-  today.getFullYear(),
-  String(today.getMonth() + 1).padStart(2, "0"),
-  String(today.getDate()).padStart(2, "0")
-].join("-");
+const services=[
+{id:"hair",ku:"قژبڕین",ar:"قص الشعر",en:"Haircut",de:"Haarschnitt",price:null},
+{id:"beard",ku:"ڕیش چاککردن",ar:"تهذيب اللحية",en:"Beard Trim",de:"Bartpflege",price:null},
+{id:"combo",ku:"قژ و ڕیش پێکەوە",ar:"الشعر واللحية",en:"Hair & Beard",de:"Haare & Bart",price:null},
+{id:"wash",ku:"شوشتنی قژ",ar:"غسل الشعر",en:"Hair Wash",de:"Haarwäsche",price:null},
+{id:"fade",ku:"قژی فەید",ar:"قصة فيد",en:"Fade Cut",de:"Fade-Schnitt",price:null},
+{id:"special",ku:"پێشمەرگە و دێلیڤەری - قژ و ڕیش",ar:"عرض البيشمركة والتوصيل",en:"Peshmerga & Delivery Special",de:"Peschmerga & Lieferdienst",price:5000}
+];
 
-dateInput.min = localDate;
+let lang=localStorage.getItem("kurdoLang")||"ku";
+let selectedTime="";
+let busy=false;
 
-const missingConfig = [
-  firebaseConfig.apiKey,
-  firebaseConfig.storageBucket,
-  firebaseConfig.appId
-].some(value => !value || value.startsWith("YOUR_"));
+const $=id=>document.getElementById(id);
+const tr=key=>translations[lang][key]||key;
 
-let db = null;
-let firebaseError = null;
+window.showPage=function(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ $(id).classList.add("active");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.nav===id));
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(id==="profile")renderLastBooking();
+};
 
-if (!missingConfig) {
-  try {
-    const app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
-  } catch (error) {
-    firebaseError = error;
-  }
+window.setLanguage=function(value){
+ lang=value;
+ localStorage.setItem("kurdoLang",value);
+ document.documentElement.lang=value;
+ document.documentElement.dir=["ku","ar"].includes(value)?"rtl":"ltr";
+ document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=tr(el.dataset.i18n));
+ document.querySelectorAll(".lang").forEach(el=>el.classList.toggle("selected",el.textContent.includes({ku:"Kurdish",ar:"Arabic",en:"English",de:"Deutsch"}[value])));
+ renderServices();
+};
+
+function renderServices(){
+ const current=$("bookingService").value;
+ $("bookingService").replaceChildren();
+ services.forEach(s=>{
+  const o=document.createElement("option");
+  o.value=s.id;
+  o.textContent=s[lang]+(s.price?" — "+s.price.toLocaleString()+" IQD":"");
+  $("bookingService").append(o);
+ });
+ if(services.some(s=>s.id===current))$("bookingService").value=current;
+ const list=$("serviceList");
+ list.replaceChildren();
+ services.forEach(s=>{
+  const btn=document.createElement("button");
+  btn.className="service";
+  const title=document.createElement("strong");
+  title.textContent=s[lang];
+  const price=document.createElement("span");
+  price.className="price";
+  price.textContent=s.price?s.price.toLocaleString()+" IQD":"›";
+  btn.append(title,price);
+  btn.onclick=()=>{window.selectService(s.id);showPage("booking")};
+  list.append(btn);
+ });
 }
 
-document.getElementById("checkBtn")
-.addEventListener("click", () => {
+window.selectService=id=>{
+ $("bookingService").value=id;
+};
 
-  if (missingConfig) {
-    status.textContent =
-      "تکایە زانیاری Firebase تەواو بکە.";
-    return;
+function localToday(){
+ const d=new Date();
+ return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
+}
+
+const times=["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00"];
+
+function renderTimes(){
+ const root=$("timeSlots");
+ root.replaceChildren();
+ selectedTime="";
+ const today=localToday();
+ $("bookingDate").min=today;
+ if($("bookingDate").value<today)$("bookingDate").value=today;
+ times.forEach(time=>{
+  const b=document.createElement("button");
+  b.type="button";
+  b.className="slot";
+  b.textContent=time;
+  const date=$("bookingDate").value;
+  const past=new Date(date+"T"+time+":00").getTime()<=Date.now();
+  b.disabled=past;
+  b.onclick=()=>{
+   selectedTime=time;
+   root.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));
+   b.classList.add("selected");
+  };
+  root.append(b);
+ });
+}
+
+$("bookingDate").value=localToday();
+$("bookingDate").addEventListener("change",renderTimes);
+renderTimes();
+
+function showStatus(message,type){
+ const el=$("bookingStatus");
+ el.className="message "+type;
+ el.textContent=message;
+}
+
+function renderLastBooking(){
+ const el=$("lastBooking");
+ el.replaceChildren();
+ try{
+  const item=JSON.parse(localStorage.getItem("kurdoLastBooking")||"null");
+  if(!item){el.textContent="No booking saved on this device.";return;}
+  const p=document.createElement("p");
+  p.textContent=item.service+" | "+item.date+" | "+item.time+" | "+item.status;
+  el.append(p);
+ }catch{el.textContent="No booking found."}
+}
+
+$("bookingForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(busy)return;
+ const name=$("customerName").value.trim();
+ const phone=$("customerPhone").value.trim();
+ const service=$("bookingService").value;
+ const date=$("bookingDate").value;
+ const time=selectedTime;
+ if(!name||!phone||!service||!date||!time){
+  showStatus("تکایە هەموو خانەکان پڕ بکەرەوە و کاتێک هەڵبژێرە.","error");return;
+ }
+ if(new Date(date+"T"+time+":00").getTime()<=Date.now()){
+  showStatus("ئەم کاتە تێپەڕیوە.","error");return;
+ }
+ busy=true;
+ $("bookBtn").disabled=true;
+ showStatus("چاوەڕێ بە، داواکارییەکەت دەنێردرێت...","notice");
+ try{
+  const slotId=date+"_"+time.replace(":","-");
+  const slotRef=doc(db,"bookingSlots",slotId);
+  const bookingRef=doc(db,"bookings",slotId);
+  await runTransaction(db,async tx=>{
+   const existing=await tx.get(slotRef);
+   if(existing.exists())throw new Error("SLOT_TAKEN");
+   tx.set(slotRef,{date,time,bookingId:slotId,createdAt:serverTimestamp()});
+   tx.set(bookingRef,{
+    name,phone,service,date,time,
+    status:"pending",
+    createdAt:serverTimestamp()
+   });
+  });
+  const record={name,phone,service,date,time,status:"Pending",id:slotId};
+  localStorage.setItem("kurdoLastBooking",JSON.stringify(record));
+  $("confirmationDetails").textContent=date+" | "+time+" | "+service;
+  showPage("confirmed");
+  $("bookingForm").reset();
+  $("bookingDate").value=localToday();
+  renderTimes();
+ }catch(error){
+  console.error(error);
+  if(error.message==="SLOT_TAKEN"){
+   showStatus("ئەم کاتە پێشتر حجزکراوە. تکایە کاتێکی تر هەڵبژێرە.","error");
+  }else if(error.code==="permission-denied"){
+   showStatus("Firebase ڕێگەی تۆمارکردن نادات. پێویستە Rules ـی bookings و bookingSlots ڕێک بخرێن.","error");
+  }else{
+   showStatus("هەڵەیەک ڕوویدا: "+(error.code||error.message),"error");
   }
-
-  if (firebaseError) {
-    status.textContent =
-      "هەڵە: " + firebaseError.message;
-    return;
-  }
-
-  status.textContent =
-    "Firebase SDK ئامادەیە. بۆ دڵنیابوون لە Firestore، حجزێکی تاقیکردنەوە ئەنجام بدە.";
+ }finally{
+  busy=false;
+  $("bookBtn").disabled=false;
+ }
 });
 
-bookingForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  if (!db) {
-    bookingStatus.textContent =
-      "Firebase هێشتا ئامادە نییە.";
-    return;
-  }
-
-  const name =
-    document.getElementById("customerName").value.trim();
-
-  const phone =
-    document.getElementById("customerPhone").value.trim();
-
-  const service =
-    document.getElementById("service").value;
-
-  const date =
-    document.getElementById("bookingDate").value;
-
-  const time =
-    document.getElementById("bookingTime").value;
-
-  if (!name || !phone || !service || !date || !time) {
-    bookingStatus.textContent =
-      "تکایە هەموو خانەکان پڕ بکەوە.";
-    return;
-  }
-
-  const appointment = new Date(date + "T" + time);
-
-  if (Number.isNaN(appointment.getTime()) ||
-      appointment <= new Date()) {
-    bookingStatus.textContent =
-      "تکایە کاتێکی داهاتوو هەڵبژێرە.";
-    return;
-  }
-
-  bookBtn.disabled = true;
-  bookingStatus.textContent =
-    "حجزەکەت تۆمار دەکرێت...";
-
-  try {
-    const result = await addDoc(
-      collection(db, "bookings"),
-      {
-        customerName: name,
-        customerPhone: phone,
-        service: service,
-        bookingDate: date,
-        bookingTime: time,
-        status: "pending",
-        createdAt: serverTimestamp()
-      }
-    );
-
-    bookingStatus.textContent =
-      "حجزەکەت بە سەرکەوتوویی نێردرا. ژمارەی حجز: " +
-      result.id +
-      " — چاوەڕوانی پشتڕاستکردنەوەی دوکان بکە.";
-
-    bookingForm.reset();
-
-  } catch (error) {
-    bookingStatus.textContent =
-      "حجزەکە تۆمار نەکرا: " + error.message;
-  } finally {
-    bookBtn.disabled = false;
-  }
-});
-
+setLanguage(lang);
 </script>
-
 </body>
 </html>
